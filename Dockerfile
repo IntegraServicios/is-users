@@ -4,6 +4,7 @@ WORKDIR /usr/src/is-users-ms
 COPY --chown=node:node package.json ./
 COPY --chown=node:node package-lock.json ./
 COPY --chown=node:node . .
+RUN npm i
 RUN npm run build
 RUN npm cache clean --force
 
