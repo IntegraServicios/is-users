@@ -15,9 +15,9 @@ export class UserService {
     private readonly userRepository: Repository<User>,
   ) {}
   async validateUser(email: string, password: string) {
-    const { password: correctPassword, ...user } =
-      await this.userRepository.findOneBy({ email });
-    if (!user) throw new NotFoundException({ message: 'user not found' });
+    const userData = await this.userRepository.findOneBy({ email });
+    if (!userData) throw new NotFoundException({ message: 'user not found' });
+    const { password: correctPassword, ...user } = userData;
     const valid = bcrypt.compareSync(password, correctPassword);
     console.log(valid);
     if (!valid)
