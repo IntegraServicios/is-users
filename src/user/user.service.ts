@@ -28,7 +28,16 @@ export class UserService {
   async createUser(user: CreateUserDto) {
     const saltRounds = 10;
     user.password = bcrypt.hashSync(user.password, saltRounds);
-    const { password, ...cleanUser } = await this.userRepository.save(user);
-    return cleanUser;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password, ...clearUser } = await this.userRepository.save(user);
+    return clearUser;
+  }
+
+  async getUserData(id: number) {
+    const user = await this.userRepository.findOneBy({ id });
+    if (!user) throw new NotFoundException({ message: 'user not found' });
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password, ...clearUser } = user;
+    return clearUser;
   }
 }
